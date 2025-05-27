@@ -1,6 +1,6 @@
 # 📦 Flipkart Product Review Scraper 🔍
 
-This is a simple and interactive web app built with **Streamlit** and **Selenium** that allows you to scrape product reviews from **Flipkart** using the **Flipkart product URL**.
+This is a simple and interactive web app built with **Flask** and **Selenium** that allows you to scrape product reviews from **Flipkart** using the **Flipkart product URL**.
 
 ---
 
@@ -25,11 +25,11 @@ This is a simple and interactive web app built with **Streamlit** and **Selenium
 
 **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/amazon-review-scraper.git
+   git clone https://github.com/your-username/Flipkart_Review_Scraper.git
    
-   cd Flipkart_Review-Scraper
+   cd Flipkart_Review_Scraper
 
    pip install -r requirements.txt
 
-   streamlit run app.py
+   python app.py
 
