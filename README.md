@@ -25,7 +25,7 @@ This is a simple and interactive web app built with **Flask** and **Selenium** t
 
 **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/Flipkart_Review_Scraper.git
+   git clone https://github.com/alok8663/Flipkart_Review_Scraper.git
    
    cd Flipkart_Review_Scraper
 

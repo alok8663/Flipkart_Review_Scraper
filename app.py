@@ -60,7 +60,7 @@ def index():
                     reviews = driver.find_elements(By.XPATH, "//div[@class='RcXBOT']")
                     for review in reviews:
                         try:
-                            rating = review.find_element(By.XPATH, ".//div[@class='XQDdHH Js30Fc Ga3i8K']").text.strip()
+                            rating = review.find_element(By.XPATH, ".//div[@class='XQDdHH Js30Fc Ga3i8K' or @class='XQDdHH Ga3i8K']").text.strip()
                         except:
                             rating = "N/A"
                         try:
