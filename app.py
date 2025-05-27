@@ -1,4 +1,4 @@
-import streamlit as st
+from flask import Flask, request, render_template, send_file
 import csv
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -9,23 +9,22 @@ from webdriver_manager.chrome import ChromeDriverManager
 import time
 import os
 
-st.set_page_config(layout="centered")
-st.title("🛒 Flipkart Product Review Scraper")
-st.write("Paste a Flipkart product URL below (e.g.- https://www.flipkart.com/gujarat-police-constable-gpc-exam-books-gujarati-set-3/p/itm42921c458a392 {not the whole url}) and click **Start Scraping**.")
-
-product_url = st.text_input("Enter Flipkart Product URL:")
-start_button = st.button("Start Scraping")
+app = Flask(__name__)
 
 def setup_driver():
     options = webdriver.ChromeOptions()
-    # options.add_argument('--headless=new')  # use new headless mode
     options.add_argument('--disable-blink-features=AutomationControlled')
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
     return webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
 
-if start_button and product_url:
-    with st.status("🔍 Launching browser and scraping reviews...", expanded=True) as status:
+# Route for a home page
+@app.route("/", methods=["GET", "POST"])
+def index():
+    message = ""
+    filename = "flipkart_reviews.csv"
+    if request.method == "POST":
+        product_url = request.form.get("product_url")
         reviews_data = []
 
         try:
@@ -53,7 +52,7 @@ if start_button and product_url:
                             body = "N/A"
                         reviews_data.append([rating, title, body])
                 except:
-                    st.warning("❌ Failed to extract reviews from review page.")
+                    message = "❌ Failed to extract reviews from review page."
 
             def extract_from_product_page():
                 try:
@@ -74,7 +73,7 @@ if start_button and product_url:
                             body = "N/A"
                         reviews_data.append([rating, title, body])
                 except:
-                    st.warning("❌ Failed to extract reviews from product page.")
+                    message = "❌ Failed to extract reviews from product page."
 
             try:
                 all_reviews_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//span[contains(text(), 'All') and contains(text(), 'review')]")))
@@ -97,16 +96,22 @@ if start_button and product_url:
             driver.quit()
 
             if reviews_data:
-                filename = "flipkart_reviews.csv"
                 with open(filename, mode="w", newline='', encoding="utf-8") as file:
                     writer = csv.writer(file)
                     writer.writerow(["User_Rating_Out_Of_5", "Review_Title", "Review_Body"])
                     writer.writerows(reviews_data)
-
-                status.update(label="✅ Scraping completed!", state="complete", expanded=False)
-                st.download_button("📥 Download CSV", data=open(filename, "rb").read(), file_name=filename)
+                return render_template("index.html", message="✅ Scraping completed!", download=True)
             else:
-                status.update(label="⚠️ No reviews were found.", state="error", expanded=True)
+                message = "⚠️ No reviews were found."
 
         except Exception as e:
-            st.error(f"❌ An error occurred:\n```\n{str(e)}\n```")
+            message = f"❌ An error occurred: {str(e)}"
+
+    return render_template("index.html", message=message, download=False)
+
+@app.route("/download")
+def download():
+    return send_file("flipkart_reviews.csv", as_attachment=True)
+
+if __name__ == "__main__":
+    app.run(debug=True)
