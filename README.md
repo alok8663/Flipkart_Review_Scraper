@@ -23,13 +23,27 @@ This is a simple and interactive web app built with **Flask** and **Selenium** t
 
 ## 🧪 Installation
 
-**Clone the repository**:
+**Clone the repository:**
    ```bash
    git clone https://github.com/alok8663/Flipkart_Review_Scraper.git
    
+**Set directory:**
+   ```bash
    cd Flipkart_Review_Scraper
 
+**Create virtual environment:**
+   ```bash
+   conda create -p venv python==3.8 -y
+
+**Activate virtual environment:**
+   ```bash
+   conda activate venv
+
+**Install the required packages(libraries):**
+   ```bash
    pip install -r requirements.txt
 
+**Run the Application:**
+   ```bash
    python app.py
 
