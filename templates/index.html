@@ -2,14 +2,14 @@
 <html>
 <head>
     <title>Flipkart Product Review Scraper</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body style="text-align:center; font-family:sans-serif;">
     <h1>🛒 Flipkart Product Review Scraper</h1>
     <p><strong>Paste a Flipkart product URL below </strong> <br>
         (e.g.- <a href="https://www.flipkart.com/ugc-net-english-literature-study-material-examination-set-3-books/p/itm4d4b821b5b80a" target="_blank">
     https://www.flipkart.com/ugc-net-english-literature-study-material-examination-set-3-books/p/itm4d4b821b5b80a
-</a> <br>
-        {not the whole URL}</small>) and click <strong>Start Scraping</strong>.</p>
+</a> <br></small>) and click <strong>Start Scraping</strong>.</p>
 
     <form method="POST">
         <input type="text" name="product_url" placeholder="Enter Flipkart Product URL" style="width:60%;" required>
@@ -22,9 +22,9 @@
     {% endif %}
 
     {% if download %}
-        <a href="/download">📥 Download CSV</a>
+        <a href="/download">📥 Download JSON</a>
     {% endif %}
 </body>
 </html>
 
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
